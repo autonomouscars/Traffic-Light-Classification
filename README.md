@@ -417,6 +417,19 @@ To freeze the graph:
 
     This will freeze and output the graph as ``frozen_inference_graph.pb``.
 
+### 6. Running the classification algorithm
+Now, we are ready to run the traffic light classification algorithm.
+    ```
+    ipython notebook tl_classification.ipynb 
+    ```
+If the font on the image is too small, you should install Microsoft fonts using the following commands:
+    ```
+    sudo apt-get install ttf-mscorefonts-installer
+    sudo fc-cache
+    fc-match Arial
+    ```
+    Should show: Arial.ttf: "Arial" "Regular"
+
 ## Recommendation: Use SSD Inception V2
 At first, our team was using Faster RCNN Inception V2 model. This model takes about 2.9 seconds to classify images which is - besides the name of the model - not that fast. The advantage about training the Faster RCNN Inception V2 is the generalization of the model to new, different & unseen images which means the model was only trained on the image data of Udacity's parking lot and was able to classify the light state of the traffic lights in the simulator too. So why did we change the model to SSD Inception V2? 
 
