@@ -393,6 +393,10 @@ To set up an AWS spot instance do the following steps:
     ```sh
     wget http://download.tensorflow.org/models/object_detection/your_tensorflow_model.tar.gz
     tar -xvzf your_tensorflow_model.tar.gz
+    
+    ## For Example,
+    wget http://download.tensorflow.org/models/object_detection/ssd_inception_v2_coco_2017_11_17.tar.gz
+    tar -xvzf ssd_inception_v2_coco_2017_11_17.tar.gz
     ```
 
 6. Copy the file ``train.py`` from the ``tensorflow/models/research/object_detection`` folder to the root of your project folder
