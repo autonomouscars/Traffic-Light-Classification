@@ -155,7 +155,8 @@ Source: [cdahms' question/tutorial on Stackoverflow][cdahms question].
     ```
 2. Install the following packages 
     ```
-    sudo apt-get install protobuf-compiler python-pil python-lxml python-tk
+    sudo apt-get install protobuf-compiler python-pil python-lxml python-tk python3-tk
+    pip install matplotlib Pillow
     ```
 3. Create a new directory somewhere and name it ``tensorflow``
 4. Clone TensorFlow's *models* repository from the ``tensorflow`` directory by executing 
