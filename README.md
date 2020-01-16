@@ -220,8 +220,7 @@ For the simulator data, my team colleagues [Clifton Pereira][clifton pereira] an
     
     1. ...execute the following statement if you have a ROSbag file from Udacity's simulator:
         ```sh
-        rosrun image_view image_saver _sec_per_frame:=0.01 image:=/image_color
-        rosrun image_view image_saver "_filename_format:=/my/directory/image_%04d.%s"
+        rosrun image_view image_saver _sec_per_frame:=0.1 image:=/cam_tlr/image_color
         ```
     
     2. ...execute the following statement if you have a ROSbag file from Udacity's Car Carla:
@@ -230,6 +229,9 @@ For the simulator data, my team colleagues [Clifton Pereira][clifton pereira] an
         ```
 
     As you can see the difference is the rostopic after ``image:=``.
+        ```sh
+        rosrun image_view image_saver _sec_per_frame:=0.1 image:=/cam_tlr/image_color "_filename_format:=/my/directory/image_%06d.%s"
+        ```
 
 These steps will extract the (camera) images from the ROSbag file into the folder where the code is executed. Please keep in mind that the ROSbag file is in an infinite loop and won't stop when the recording originally ended so it will automatically start from the beginning. If you think you have enough data you should interrupt one of the open terminals.
 
