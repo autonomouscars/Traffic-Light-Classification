@@ -156,7 +156,7 @@ Source: [cdahms' question/tutorial on Stackoverflow][cdahms question].
 2. Install the following packages 
     ```
     sudo apt-get install protobuf-compiler python-pil python-lxml python-tk python3-tk
-    pip install matplotlib Pillow
+    sudo pip install matplotlib Pillow
     ```
 3. Create a new directory somewhere and name it ``tensorflow``
 4. Clone TensorFlow's *models* repository from the ``tensorflow`` directory by executing 
@@ -173,7 +173,6 @@ Source: [cdahms' question/tutorial on Stackoverflow][cdahms question].
 6.  Navigate to the ``research`` folder and execute 
     ```
     protoc object_detection/protos/*.proto --python_out=.
-
     export PYTHONPATH=$PYTHONPATH:`pwd`:`pwd`/slim
     ```
 7.  If the step 6 executed without any errors then execute 
