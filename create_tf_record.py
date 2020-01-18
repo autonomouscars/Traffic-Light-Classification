@@ -1,3 +1,7 @@
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+
 import os
 import io
 import hashlib
@@ -5,12 +9,11 @@ import yaml
 import PIL.Image
 import tensorflow as tf
 import matplotlib.image as mpimg
-from object_detection.utils import dataset_util, label_map_util
+from utils import dataset_util, label_map_util
 from lxml import etree
 
 flags = tf.app.flags
-flags.DEFINE_string(
-    'data_dir', '', 'Specify root directory to raw dataset and/or to a .yaml file. Seperate multiple datasets with a comma.')
+flags.DEFINE_string('data_dir', '', 'Specify root directory to raw dataset and/or to a .yaml file. Seperate multiple datasets with a comma.')
 flags.DEFINE_string('annotations_dir', 'Annotations',
                     '(Relative) path to annotations directory. (Needed for XML!)')
 flags.DEFINE_string('output_path', '',
@@ -106,7 +109,7 @@ def create_tf_record(data, label_map_dict, is_yaml=False, ignore_difficult_insta
     ValueError: if the image pointed to by data['filename'] is not a valid JPEG
     """
 
-    with tf.gfile.GFile(data['path'], 'rb') as fid:
+    with tf.io.gfile.GFile(data['path'], 'rb') as fid:
         encoded_jpg = fid.read()
     encoded_jpg_io = io.BytesIO(encoded_jpg)
     image = PIL.Image.open(encoded_jpg_io)
@@ -183,8 +186,8 @@ def create_tf_record(data, label_map_dict, is_yaml=False, ignore_difficult_insta
 
 def main(_):
 
-    label_map_dict = label_map_util.get_label_map_dict(
-        FLAGS.label_map_path)  # label map --> FLAGS.label_map
+    label_map_dict = label_map_util.get_label_map_dict(FLAGS.label_map_path)  # label map --> FLAGS.label_map
+    print(label_map_dict)
     writer = tf.python_io.TFRecordWriter(FLAGS.output_path)
 
     dataset_list = FLAGS.data_dir.split(',')
@@ -199,19 +202,19 @@ def main(_):
         else:
             ## FOR XML
             annotations_dir = os.path.join(dataset, FLAGS.annotations_dir)
-            examples_list = [os.path.splitext(name)[0] for name in os.listdir(
-                dataset) if os.path.isfile(os.path.join(dataset, name))]
+            examples_list = [os.path.splitext(name)[0] for name in os.listdir(dataset) if os.path.isfile(os.path.join(dataset, name))]
+
             for example in examples_list:
-                path = os.path.join(annotations_dir, example + '.xml')
-                with tf.gfile.GFile(path, 'r') as fid:
+                xml_path = os.path.join(annotations_dir, example + '.xml')
+                print(xml_path)
+                with tf.io.gfile.GFile(xml_path, 'r') as fid:
                     xml_str = fid.read()
                 xml = etree.fromstring(xml_str)
-                data = dataset_util.recursive_parse_xml_to_dict(xml)[
-                    'annotation']
+                data = dataset_util.recursive_parse_xml_to_dict(xml)['annotation']
                 # convert the path to the current file directory
-                data['path'] = os.path.join(os.path.abspath(
-                    dataset), os.path.basename(data['path']))
-
+                # data['path'] = os.path.join(os.path.abspath(dataset), os.path.basename(data['path']))
+                data['path'] = os.path.join(os.path.abspath(dataset), example + '.jpg')
+                print(data['path'])
                 data['path'] = create_jpg_imgs(data['path'])
 
                 tf_example = create_tf_record(
@@ -222,4 +225,4 @@ def main(_):
 
 
 if __name__ == '__main__':
-  tf.app.run()
+  tf.compat.v1.app.run()
