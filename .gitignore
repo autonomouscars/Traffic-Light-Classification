@@ -1,7 +1,5 @@
 __pycache__/
 .ipynb_checkpoints/
-models/rcnn_resnet101
+models/*
 data/*
-!data/udacity_label_map.pbtxt
-!data/bosch_label_map.pbtxt
-!data/dataset.txt
+

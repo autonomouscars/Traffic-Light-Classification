@@ -155,7 +155,8 @@ Source: [cdahms' question/tutorial on Stackoverflow][cdahms question].
     ```
 2. Install the following packages 
     ```
-    sudo apt-get install protobuf-compiler python-pil python-lxml python-tk
+    sudo apt-get install protobuf-compiler python-pil python-lxml python-tk python3-tk
+    pip install matplotlib Pillow
     ```
 3. Create a new directory somewhere and name it ``tensorflow``
 4. Clone TensorFlow's *models* repository from the ``tensorflow`` directory by executing 
@@ -219,7 +220,7 @@ For the simulator data, my team colleagues [Clifton Pereira][clifton pereira] an
     
     1. ...execute the following statement if you have a ROSbag file from Udacity's simulator:
         ```sh
-        rosrun image_view image_saver _sec_per_frame:=0.01 image:=/image_color
+        rosrun image_view image_saver _sec_per_frame:=0.1 image:=/cam_tlr/image_color
         ```
     
     2. ...execute the following statement if you have a ROSbag file from Udacity's Car Carla:
@@ -228,6 +229,9 @@ For the simulator data, my team colleagues [Clifton Pereira][clifton pereira] an
         ```
 
     As you can see the difference is the rostopic after ``image:=``.
+        ```sh
+        rosrun image_view image_saver _sec_per_frame:=0.1 image:=/cam_tlr/image_color "_filename_format:=/my/directory/image_%06d.%s"
+        ```
 
 These steps will extract the (camera) images from the ROSbag file into the folder where the code is executed. Please keep in mind that the ROSbag file is in an infinite loop and won't stop when the recording originally ended so it will automatically start from the beginning. If you think you have enough data you should interrupt one of the open terminals.
 
@@ -393,6 +397,10 @@ To set up an AWS spot instance do the following steps:
     ```sh
     wget http://download.tensorflow.org/models/object_detection/your_tensorflow_model.tar.gz
     tar -xvzf your_tensorflow_model.tar.gz
+    
+    ## For Example,
+    wget http://download.tensorflow.org/models/object_detection/ssd_inception_v2_coco_2017_11_17.tar.gz
+    tar -xvzf ssd_inception_v2_coco_2017_11_17.tar.gz
     ```
 
 6. Copy the file ``train.py`` from the ``tensorflow/models/research/object_detection`` folder to the root of your project folder
@@ -412,6 +420,19 @@ To freeze the graph:
     ```
 
     This will freeze and output the graph as ``frozen_inference_graph.pb``.
+
+### 6. Running the classification algorithm
+Now, we are ready to run the traffic light classification algorithm.
+    ```
+    ipython notebook tl_classification.ipynb 
+    ```
+If the font on the image is too small, you should install Microsoft fonts using the following commands:
+    ```
+    sudo apt-get install ttf-mscorefonts-installer
+    sudo fc-cache
+    fc-match Arial
+    ```
+    Should show: Arial.ttf: "Arial" "Regular"
 
 ## Recommendation: Use SSD Inception V2
 At first, our team was using Faster RCNN Inception V2 model. This model takes about 2.9 seconds to classify images which is - besides the name of the model - not that fast. The advantage about training the Faster RCNN Inception V2 is the generalization of the model to new, different & unseen images which means the model was only trained on the image data of Udacity's parking lot and was able to classify the light state of the traffic lights in the simulator too. So why did we change the model to SSD Inception V2? 
