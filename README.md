@@ -408,6 +408,30 @@ To set up an AWS spot instance do the following steps:
     python train.py --logtostderr --train_dir=./models/train --pipeline_config_path=./config/your_tensorflow_model.config
     ```
 
+### Parse Error
+google.protobuf.text_format.ParseError: 101:7 : Message type "object_detection.protos.SsdFeatureExtractor" has no field named "override_base_feature_extractor_hyperparams"
+Upgrade proctoc
+
+```
+protoc --version
+sudo apt-get remove protobuf-compiler
+sudo apt-get remove protobuf
+```
+Installation
+```
+    From this page (https://github.com/protocolbuffers/protobuf/releases/tag/v3.6.1)
+    , download the protobuf-all-[VERSION].tar.gz.
+    Extract the contents and change in the directory
+    ./configure
+    make
+    make check
+    sudo make install
+    sudo ldconfig # refresh shared library cache.
+    
+    ## Check new version
+    protoc --version
+```
+
 ### 5. Freezing the graph
 When training is finished the trained model needs to be exported as a frozen inference graph. Udacity's Carla has TensorFlow Version 1.3 installed. However, the minimum version of TensorFlow needs to be Version 1.4 in order to freeze the graph but note that this does not raise any compatibility issues. 
 If you've trained the graph with a higher version of TensorFlow than 1.4, don't panic! As long as you downgrade Tensorflow to version 1.4 before running the script to freeze the graph you should be fine.
