@@ -209,9 +209,8 @@ def main(_):
                 data = dataset_util.recursive_parse_xml_to_dict(xml)[
                     'annotation']
                 # convert the path to the current file directory
-                data['path'] = os.path.join(os.path.abspath(
-                    dataset), os.path.basename(data['path']))
-
+                # data['path'] = os.path.join(os.path.abspath(dataset), os.path.basename(data['path']))
+                data['path'] = os.path.join(os.path.abspath(dataset), example + '.jpg')
                 data['path'] = create_jpg_imgs(data['path'])
 
                 tf_example = create_tf_record(
